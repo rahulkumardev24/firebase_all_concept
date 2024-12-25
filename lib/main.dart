@@ -1,17 +1,38 @@
+import 'package:firebase_concept/Firebase%20Notification/push_notification.dart';
 import 'package:firebase_concept/pdf_upload_on_firebase/pdf_upload_screen.dart';
 import 'package:firebase_concept/upload_image_on_firebase/image_upload.dart';
+import 'package:firebase_concept/user_data_upload_on_firebase/user_add_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
-  /// make sure this line add
-
+  /// Ensure that all bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  /// Request notification permissions
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  /// Get the FCM Token (for testing purposes)
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print('FCM Token: $fcmToken');
+
+  /// Run the app
   runApp(const MyApp());
 }
 
@@ -22,18 +43,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: PdfUploadScreen()
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: UserAddScreen());
   }
 }
-
-
 
 /// IN THIS VIDEO CONNECT FLUTTER WITH FIREBASE (DIFFERENT ACCOUNT )
 /// SIMPLE STEP
