@@ -1,0 +1,2 @@
+C:/FLUTTER PROJECT/FLUTTER COURSE/firebase_concept/android/app/.cxx/Debug/2x841unn/x86/CMakeFiles/edit_cache.dir
+C:/FLUTTER PROJECT/FLUTTER COURSE/firebase_concept/android/app/.cxx/Debug/2x841unn/x86/CMakeFiles/rebuild_cache.dir

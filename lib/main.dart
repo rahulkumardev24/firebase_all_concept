@@ -1,55 +1,40 @@
-import 'package:firebase_concept/Firebase%20Notification/push_notification.dart';
+import 'package:firebase_concept/Firebase%20Notification/push_notification_screen.dart';
 import 'package:firebase_concept/pdf_upload_on_firebase/pdf_upload_screen.dart';
+import 'package:firebase_concept/phone%20Authentication/phone_auth_screen.dart';
 import 'package:firebase_concept/upload_image_on_firebase/image_upload.dart';
 import 'package:firebase_concept/user_data_upload_on_firebase/user_add_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import 'firebase_options.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Background Notifications Received : ${message.notification?.title}" ) ;
+}
 void main() async {
-  /// Ensure that all bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
-
-  /// Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  /// Request notification permissions
-  await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  /// Get the FCM Token (for testing purposes)
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print('FCM Token: $fcmToken');
-
-  /// Run the app
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  /// Background & Terminated state listener
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler) ;
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: UserAddScreen());
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Push Notification',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: PushNotificationScreen(),
+    );
   }
 }
 
